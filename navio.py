@@ -10,14 +10,16 @@ class navio:
         return self.__nome
     
     @nome.setter
-
+    def nome(self, nome):
+        self.__nome = nome
 
     @property
     def tripulação(self):
         return self.__tripulação
     
     @tripulação.setter
-    def
+    def tripulação(self, tripulação):
+        self.__tripulação = tripulação
 
     @property
     def recompensa_total(self):

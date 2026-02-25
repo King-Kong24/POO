@@ -10,47 +10,57 @@ class tripulante:
     def nome(self):
         return self.__nome
     
-    @nome.setter
-    def nome(self, nome):
-        self.__nome = nome
-
     @property
     def funcao(self):
         return self.__funcao
     
-    @funcao.setter
-    def funcao(self, funcao):
-        self.__funcao = funcao
-
     @property
     def recompensa(self):
         return self.__recompensa
     
-    @recompensa.setter
-    def recompensa(self, recompensa):
-        self.__recompensa = recompensa
 
     @property
     def poder(self):
         return self.__poder
-    
-    @poder.setter
-    def poder(self, poder):
-        self.__poder = poder
-
 
     @property
     def energia(self):
         return self.__energia
+    
+    @nome.setter
+    def nome(self, nome):
+        self.__nome = nome    
+
+    @funcao.setter
+    def funcao(self, funcao):
+        self.__funcao = funcao
+    
+    @recompensa.setter
+    def recompensa(self, recompensa):
+        self.__recompensa = recompensa
+        if recompensa < 0:
+            print("Erro: Recompensa não pode ser negativa.")
+
+    @poder.setter
+    def poder(self, poder):
+        self.__poder = poder
+        if poder < 0:
+            print("Erro: Poder não pode ser negativo.")
+        if poder > 100:
+            print("Erro: Poder não pode ser maior que 100.")
 
     @energia.setter
     def energia(self, energia):
         self.__energia = energia
+        if energia < 0:
+            print
+        if energia > 100:
+            print("Erro: Energia não pode ser maior que 100.")
 
     def trabalhar(tempo):
         self.__energia -= tempo * 5
         if self.__energia < 0:
-            self.__energia = 0
+            print("Erro: Energia insuficiente para trabalhar.")
     
     def descansar(self, tempo):
         self.__energia += tempo * 10

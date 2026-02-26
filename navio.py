@@ -19,16 +19,16 @@ class navio:
     
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        self.__nome = str(nome)
 
     @tripulação.setter
     def tripulação(self, tripulação):
-        self.__tripulação = tripulação
+        self.__tripulação = list(tripulação)
     
-    def recrutar(novo_tripulante):
+    def recrutar(self, novo_tripulante):
         self.__tripulação.append(novo_tripulante)
                                  
-    def expulsar(nome_tripulante):
+    def expulsar(self, nome_tripulante):
         self.__tripulação = [t for t in self.__tripulação if t.nome != nome_tripulante]
 
     def calcular_poder_total(self):

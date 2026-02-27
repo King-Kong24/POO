@@ -36,10 +36,9 @@ class navio:
         return sum(t.poder for t in self.__tripulação)
         
     def mostrar_manifesto(self):
-        for t in self.__tripulação:
-            t.recompensa = float(t.recompensa) / 1000000
         print(f"Manifesto do Navio {self.__nome}:")
         for t in self.__tripulação:    
+            t.recompensa = float(t.recompensa) * 1000000
             print(f"Tripulante: {t.nome}, Recompensa: {t.recompensa}M, Poder: {t.poder}")
         print(f"Total de tripulantes: {len(self.__tripulação)}, "
               f"Recompensa total: {self.recompensa_total}M, "

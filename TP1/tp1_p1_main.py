@@ -46,7 +46,6 @@ def main():
             nome = input("Digite o nome do tripulante: ")
             limpar_terminal()
             
-            # Menu de seleção de função
             print("\nEscolha a função do tripulante:")
             for i, func in enumerate(FUNCOES_DISPONIVEIS, 1):
                 print(f"{i} - {func}")

@@ -40,7 +40,7 @@ class tripulante:
     def poder(self, poder):
         if not (0 <= poder <= 100):
             print("Erro: Poder deve estar entre 0 e 100.")
-            return  # Return early to avoid setting invalid power
+            return
         self.__poder = int(poder)
 
     @property
@@ -51,7 +51,7 @@ class tripulante:
     def energia(self, energia):
         if energia < 0:
             print("Erro: Energia não pode ser negativa.")
-            return  # Return early to avoid setting negative energy
+            return
         elif energia > 100:
             self.__energia = 100
         else:

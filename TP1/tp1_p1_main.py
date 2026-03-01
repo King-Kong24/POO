@@ -1,9 +1,18 @@
+"""One Piece: Grand Line Adventures - Parte 1 (Menu Principal)
+
+Programa interativo para gerenciar uma tripulação pirata.
+Permite recrutar tripulantes, definir habilidades, guardar e carregar o estado do navio.
+
+Execute com: python tp1_p1_main.py
+"""
+
 import os
 from colorama import Style
 from tripulante import Tripulante
 from navio import Navio
 from persistencia import carregar_navio
 
+# Lista de funções disponíveis para recrutar tripulantes (apenas Tripulante básico implementado)
 funcoes_disponiveis = [
     "Capitão",
     "Espadachim",
@@ -18,9 +27,24 @@ funcoes_disponiveis = [
 ]
 
 def limpar_terminal():
+    """Limpa a tela do terminal para melhor visualização.
+    
+    Usa o comando 'cls' no Windows.
+    Para Linux/Mac, alterar para 'clear'.
+    """
     os.system('cls')
 
 def main():
+    """Função principal que executa o menu interativo do jogo.
+    
+    Permite ao utilizador:
+    - Criar um novo navio
+    - Recrutar tripulantes
+    - Expulsar tripulantes
+    - Mostrar manifesto da tripulação
+    - Colocar tripulantes a trabalhar/descansar
+    - Salvar e carregar o estado do navio
+    """
     meu_navio = None
     
     while True:
@@ -39,12 +63,14 @@ def main():
 
         op = input("Escolha: ").strip()
 
+        # Opção 1: Criar um novo navio
         if op == '1':
             limpar_terminal()
             nome = input("Nome do Navio: ")
             meu_navio = Navio(nome)
             print(f"Navio {nome} pronto para navegar.")
 
+        # Opção 2: Recrutar um novo tripulante
         elif op == '2':
             limpar_terminal()
             if meu_navio is None:
@@ -73,16 +99,19 @@ def main():
                     input("Pressione ENTER para continuar...")
                     limpar_terminal()
                 
+                # Solicita as características do tripulante
                 recompensa = float(input("Bounty (M): "))
                 poder = int(input("Poder (0-100): "))
                 energia = int(input("Energia (0-100): "))
                 
+                # Cria e recruta o novo tripulante
                 novo = Tripulante(nome, recompensa, poder, energia)
                 if meu_navio.recrutar(novo):
                     print("Recrutado")
             except ValueError as e:
                 print(f"Erro nos dados: {e}")
 
+        # Opção 3: Expulsar um tripulante
         elif op == '3':
             limpar_terminal()
             if meu_navio:
@@ -107,15 +136,18 @@ def main():
                     print("Entrada inválida. Digite um número.")
                     input("\nPressione ENTER para continuar...")
 
+        # Opção 4: Mostrar o manifesto (lista de tripulantes)
         elif op == '4':
             limpar_terminal()
             if meu_navio:
                 meu_navio.mostrar_manifesto()
+                input("\nPressione ENTER para continuar...")
             else:
                 print("Sem navio, sem manifesto.")
                 input("Pressione ENTER para continuar")
                 limpar_terminal()
 
+        # Opção 5: Colocar um tripulante a trabalhar (reduz energia)
         elif op == '5':
             limpar_terminal()
             if meu_navio and meu_navio.tripulacao:
@@ -141,6 +173,7 @@ def main():
                 input("Pressione ENTER para continuar...")
                 limpar_terminal()
 
+        # Opção 6: Colocar um tripulante a descansar (recupera energia)
         elif op == '6':
             limpar_terminal()
             if meu_navio and meu_navio.tripulacao:
@@ -166,6 +199,7 @@ def main():
                 input("Pressione ENTER para continuar...")
                 limpar_terminal()
 
+        # Opção 7: Salvar o estado do navio
         elif op == '7':
             limpar_terminal()
             if meu_navio:
@@ -174,6 +208,7 @@ def main():
                 input("Pressione ENTER para continuar")
                 limpar_terminal()
            
+        # Opção 8: Carregar um navio guardado
         elif op == '8':
             limpar_terminal()
             carregado = carregar_navio()
@@ -186,6 +221,7 @@ def main():
                 input("Pressione ENTER para continuar")
                 limpar_terminal()
 
+        # Opção 9: Sair do programa
         elif op == '9':
             limpar_terminal()
             print("Rumo a Laugh Tale." \

@@ -1,6 +1,7 @@
 import os
 from tripulante import tripulante
 from navio import navio
+from persistencia import salvar_navio, carregar_navio
 
 FUNCOES_DISPONIVEIS = [
     "Capitão",
@@ -17,92 +18,79 @@ FUNCOES_DISPONIVEIS = [
 def limpar_terminal():
     os.system('cls')
 
-def mostrar_menu():
-    print("\n1 - Criar Navio" \
-        "\n2 - Recrutar Tripulante" \
-        "\n3 - Expulsar Tripulante" \
-        "\n4 - Mostrar Manifesto" \
-        "\n5 - Sair")
-
 def main():
+    meu_navio = None
+    
     while True:
-        mostrar_menu()
+        print("\n--- One Piece: Grand Line Adventures ---")
+        print("1 - Criar Navio")
+        print("2 - Recrutar Tripulante")
+        print("3 - Expulsar Tripulante")
+        print("4 - Mostrar Manifesto")
+        print("5 - Sair")
+        print("6 - Salvar Navio")
+        print("7 - Carregar Navio")
+
         op = input("Escolha: ").strip()
+
         if op == '1':
             limpar_terminal()
-            nome_navio = input("Digite o nome do navio: ")
-            limpar_terminal()
-            navio1 = navio(nome_navio)
-            print(f"Navio '{nome_navio}' criado com sucesso!")
-            input("Pressione ENTER para continuar...")
-            limpar_terminal()
+            nome = input("Nome do Navio: ")
+            meu_navio = navio(nome)
+            print(f"Navio {nome} pronto para navegar.")
+
         elif op == '2':
-            if 'navio1' not in locals():
-                print("Erro: Crie um navio primeiro.")
-                input("Pressione ENTER para continuar...")
-                limpar_terminal()
+            limpar_terminal()
+            if meu_navio is None:
+                print("Crie um navio primeiro.")
                 continue
-            limpar_terminal()
-            nome = input("Digite o nome do tripulante: ")
-            limpar_terminal()
-            
-            print("\nEscolha a função do tripulante:")
-            for i, func in enumerate(FUNCOES_DISPONIVEIS, 1):
-                print(f"{i} - {func}")
-            opcao_funcao = input("Escolha a função (número): ").strip()
             
             try:
-                indice = int(opcao_funcao) - 1
-                if 0 <= indice < len(FUNCOES_DISPONIVEIS):
-                    funcao = FUNCOES_DISPONIVEIS[indice]
-                else:
-                    print("Opção inválida! Tente novamente.")
-                    input("Pressione ENTER para continuar...")
-                    limpar_terminal()
-                    continue
-            except ValueError:
-                print("Entrada inválida! Tente novamente.")
-                input("Pressione ENTER para continuar...")
-                limpar_terminal()
-                continue
-            
-            limpar_terminal()
-            recompensa = float(input("Digite a recompensa do tripulante: "))
-            limpar_terminal()
-            poder = int(input("Digite o poder do tripulante (0-100): "))
-            limpar_terminal()
-            energia = int(input("Digite a energia do tripulante (0-100): "))
-            limpar_terminal()
-            novo_tripulante = tripulante(nome, funcao, recompensa, poder, energia)
-            navio1.recrutar(novo_tripulante)
-            print(f"Tripulante '{nome}' recrutado com sucesso!")
-            input("Pressione ENTER para continuar...")
-            limpar_terminal()
+                nome = input("Nome: ")
+                func = input("Função: ")
+                recompensa = float(input("Bounty (M): "))
+                poder = int(input("Poder (0-100): "))
+                energia = int(input("Energia (0-100): "))
+                
+                novo = tripulante(nome, func, recompensa, poder, energia)
+                if meu_navio.recrutar(novo):
+                    print("Recrutado.")
+            except ValueError as e:
+                print(f"Erro nos dados: {e}")
+
         elif op == '3':
-            if 'navio1' not in locals():
-                print("Erro: Crie um navio primeiro.")
-                input("Pressione ENTER para continuar...")
-                limpar_terminal()
-                continue
             limpar_terminal()
-            nome_tripulante = input("Digite o nome do tripulante a expulsar: ")
-            navio1.expulsar(nome_tripulante)
-            print(f"Tripulante '{nome_tripulante}' expulso com sucesso!")
-            input("Pressione ENTER para continuar...")
-            limpar_terminal()
+            if meu_navio:
+                nome = input("Nome do pirata a expulsar: ")
+                if meu_navio.expulsar(nome):
+                    print(f"{nome} foi deixado na ilha mais próxima.")
+                else:
+                    print("Tripulante não encontrado.")
+
         elif op == '4':
-            if 'navio1' not in locals():
-                print("Erro: Crie um navio primeiro.")
-                input("Pressione ENTER para continuar...")
-                limpar_terminal()
-                continue
             limpar_terminal()
-            navio1.mostrar_manifesto()
-            input("Pressione ENTER para continuar...")
-            limpar_terminal()
+            if meu_navio:
+                meu_navio.mostrar_manifesto()
+            else:
+                print("Sem navio, sem manifesto.")
+
         elif op == '5':
             limpar_terminal()
-            print("Adeus!")
+            print("Rumo a Laugh Tale." \
+            "\nAté a próxima aventura.")
             break
+
+        elif op == '6':
+            if meu_navio:
+                meu_navio.salvar()
+
+        elif op == '7':
+            carregado = carregar_navio()
+            if carregado:
+                meu_navio = carregado
+                print("Navio carregado com sucesso")
+            else:
+                print("Nenhum navio foi carregado.")
+
 if __name__ == "__main__":
     main()

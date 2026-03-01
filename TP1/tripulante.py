@@ -29,8 +29,9 @@ class tripulante:
     @recompensa.setter
     def recompensa(self, recompensa):
         if recompensa < 0:
-            raise ValueError("Erro: Recompensa não pode ser negativa.")
-        self.__recompensa = float(recompensa)
+            self.__recompensa = 0.0
+        else:
+            self.__recompensa = float(recompensa)
 
     @property
     def poder(self):
@@ -38,10 +39,12 @@ class tripulante:
 
     @poder.setter
     def poder(self, poder):
-        if not (0 <= poder <= 100):
-            print("Erro: Poder deve estar entre 0 e 100.")
-            return
-        self.__poder = int(poder)
+        if poder < 0:
+            self.__poder = 0
+        elif poder > 100:
+            self.__poder = 100
+        else:
+            self.__poder = int(poder)
 
     @property
     def energia(self):
@@ -50,8 +53,7 @@ class tripulante:
     @energia.setter
     def energia(self, energia):
         if energia < 0:
-            print("Erro: Energia não pode ser negativa.")
-            return
+            self.__energia = 0
         elif energia > 100:
             self.__energia = 100
         else:
@@ -60,13 +62,24 @@ class tripulante:
     def trabalhar(self, tempo):
         self.__energia -= tempo * 5
         if self.__energia <= 0:
-            print("Erro: Energia insuficiente para trabalhar.")
-    
+            self.__energia = 0
+            print(f"{self.nome} está exausto e não pode trabalhar mais")
+            
     def descansar(self, tempo):
-        self.__energia += tempo * 10
-        if self.__energia > 100:
-            self.__energia = 100
+        self.__energia = 100
+
     def __str__(self):
-        recompensa_formatada = self.__recompensa / 1000000
-        return f"Tripulante: {self.__nome}, Função: {self.__funcao}, Recompensa: {recompensa_formatada}M, Poder: {self.__poder}, Energia: {self.__energia}"
+        rec_formatada = self.__recompensa / 1000000
+        return f"Tripulante: {self.__nome}, Função: {self.__funcao}, Bounty: {rec_formatada:.0f}M, Poder: {self.__poder}, Energia: {self.__energia}"
+
+    def __lt__(self, outro):
+        return self.poder < outro.poder
     
+    def to_dict(self):
+        return {
+            "nome": self.__nome,
+            "funcao": self.__funcao,
+            "recompensa": self.__recompensa,
+            "poder": self.__poder,
+            "energia": self.__energia
+        }

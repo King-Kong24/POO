@@ -1,4 +1,5 @@
 from persistencia import salvar_navio, carregar_navio
+from colorama import Fore, Style
 
 class navio:
     def __init__(self, nome, tripulacao=None):
@@ -49,17 +50,26 @@ class navio:
         return sum(t.poder for t in self.__tripulacao)
         
     def mostrar_manifesto(self):
+        tripulacao_ordenada = sorted(self.__tripulacao, reverse=True)
+
+        print(f"{Fore.CYAN}{'=' * 30}")
+        print(f"{Fore.YELLOW}{Style.BRIGHT}MANIFESTO DO NAVIO: {self.nome.upper()}")
+        print(f"{Fore.CYAN}{'=' * 30}")
         
-        print("-" * 30)
-        print(f"MANIFESTO DO NAVIO: {self.nome}")
-        print(f"Poder Total: {self.calcular_poder_total()}")
-        print(f"Recompensa Total: {self.recompensa_total}")
-        print("-" * 30)
-        if not self.__tripulacao:
-            print("Navio sem tripulação")
-        for t in self.__tripulacao:    
-            print(t)
-        print("-" * 30)
+        if not tripulacao_ordenada:
+            print(f"{Fore.WHITE}Nenhum tripulante a bordo.")
+            input(f"\nPressione {Fore.MAGENTA}ENTER{Style.RESET_ALL} para voltar ao menu...")
+            return
+        else:
+            for t in tripulacao_ordenada:
+                print(f"{t}")
+                
+            print(f"{Fore.CYAN}{'-'*30}")
+            print(f"Poder Total: {Fore.RED}{self.calcular_poder_total()}")
+            print(f"Recompensa Total: {Fore.GREEN}฿ {self.recompensa_total:,.0f}")
+            
+            print(Style.RESET_ALL)
+            input(f"\nPressione {Fore.MAGENTA}ENTER{Style.RESET_ALL} para voltar ao menu...")
 
     def salvar(self):
         

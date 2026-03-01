@@ -6,6 +6,7 @@ from persistencia import carregar_navio
 
 funcoes_disponiveis = [
     "Capitão",
+    "Espadachim",
     "Navegador",
     "Médico",
     "Cozinheiro",

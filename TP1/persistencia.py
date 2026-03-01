@@ -1,5 +1,5 @@
 import json
-from tripulante import tripulante
+from tripulante import Tripulante
 import navio as navio_class
 import os
 
@@ -53,7 +53,7 @@ def carregar_navio(nome_navio=None):
 
     nav = navio_class.navio(dados["nome_navio"])
     for t_dados in dados["tripulacao"]:
-        novo_t = tripulante(
+        novo_t = Tripulante(
             t_dados["nome"],
             t_dados["funcao"],
             t_dados["recompensa"],

@@ -1,7 +1,7 @@
 import os
 from colorama import Style
-from tripulante import tripulante
-from navio import navio
+from tripulante import Tripulante
+from navio import Navio
 from persistencia import carregar_navio
 
 funcoes_disponiveis = [
@@ -42,7 +42,7 @@ def main():
         if op == '1':
             limpar_terminal()
             nome = input("Nome do Navio: ")
-            meu_navio = navio(nome)
+            meu_navio = Navio(nome)
             print(f"Navio {nome} pronto para navegar.")
 
         elif op == '2':
@@ -77,7 +77,7 @@ def main():
                 poder = int(input("Poder (0-100): "))
                 energia = int(input("Energia (0-100): "))
                 
-                novo = tripulante(nome, funcao, recompensa, poder, energia)
+                novo = Tripulante(nome, recompensa, poder, energia)
                 if meu_navio.recrutar(novo):
                     print("Recrutado")
             except ValueError as e:
@@ -111,7 +111,6 @@ def main():
             limpar_terminal()
             if meu_navio:
                 meu_navio.mostrar_manifesto()
-                limpar_terminal()
             else:
                 print("Sem navio, sem manifesto.")
                 input("Pressione ENTER para continuar")
